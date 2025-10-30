@@ -14,4 +14,3 @@ const listenServer = () => {
     }
 };
 listenServer();
-//# sourceMappingURL=index.js.map
