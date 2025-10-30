@@ -7,7 +7,6 @@ const register = async (req: Request, res: Response) => {
   try {
     const { name, email, password } = req.body;
 
-    // 1️⃣ Email барбы — текшеребиз
     const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) {
       return res.status(400).json({
@@ -16,10 +15,8 @@ const register = async (req: Request, res: Response) => {
       });
     }
 
-    // 2️⃣ Сырсөздү хэш кылабыз
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // 3️⃣ Колдонуучу түзөбүз
     const user = await prisma.user.create({
       data: {
         name,
@@ -28,7 +25,6 @@ const register = async (req: Request, res: Response) => {
       },
     });
 
-    // 4️⃣ Token жаратабыз
     const token = generateToken(user.id, user.email);
 
     res.status(201).json({
